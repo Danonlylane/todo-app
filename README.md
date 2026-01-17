@@ -1,192 +1,261 @@
-# Todo App
+# ✨ Modern Todo App
 
-一个全栈 Todo 应用，使用 React + TypeScript 前端和 Spring Boot Java 后端。
+一个功能强大、设计现代的全栈 Todo 应用，采用 React + TypeScript 前端和 Spring Boot Java 后端架构。
 
-## 技术栈
+## 🎯 特性亮点
+
+### 核心功能
+- ✅ **完整的 CRUD 操作** - 创建、读取、更新、删除任务
+- 🎨 **现代化 UI 设计** - 使用 Tailwind CSS 打造精美界面
+- 🌓 **深色模式** - 支持浅色/深色主题切换
+- 📱 **响应式设计** - 完美适配桌面和移动设备
+
+### 高级功能
+- ⭐ **优先级系统** - 高/中/低三级优先级管理
+- 🏷️ **标签系统** - 支持多标签分类
+- 📅 **截止日期** - 设置任务截止时间，自动标记逾期
+- 🔍 **智能搜索** - 全文搜索任务标题和描述
+- ⭐ **收藏功能** - 标记重要任务
+- 📊 **统计面板** - 实时展示任务统计数据
+- 🎯 **多维度筛选** - 按状态、优先级、标签、日期筛选
+- ✨ **流畅动画** - 使用 Framer Motion 实现优雅交互
+
+### 技术特性
+- 🚀 **性能优化** - 按优先级自动排序
+- 💾 **本地存储** - 深色模式偏好持久化
+- 🎭 **图标系统** - 使用 Lucide React 图标库
+- 📆 **日期处理** - 使用 date-fns 格式化日期
+
+## 🛠 技术栈
 
 ### 前端
-- React 18 with TypeScript
-- Create React App
-- CSS3
-- Fetch API
+- **React 18** - 现代化 UI 库
+- **TypeScript** - 类型安全
+- **Tailwind CSS** - 实用优先的 CSS 框架
+- **Framer Motion** - 动画库
+- **Lucide React** - 图标库
+- **date-fns** - 日期处理库
 
 ### 后端
-- Java 17
-- Spring Boot 3.2.1
-- Spring Data JPA
-- H2 Database (内存数据库)
-- Maven
+- **Java 17** - 编程语言
+- **Spring Boot 3.2.1** - 应用框架
+- **Spring Data JPA** - 数据持久化
+- **H2 Database** - 内存数据库
+- **Maven** - 项目管理工具
 
-## 项目结构
+## 📁 项目结构
 
 ```
 todo-app/
-├── frontend/          # React 前端项目
+├── frontend/                 # React 前端
 │   ├── src/
-│   │   ├── components/     # React 组件
-│   │   ├── services/       # API 服务
-│   │   └── App.tsx         # 主应用组件
+│   │   ├── components/      # React 组件
+│   │   │   ├── TodoForm.tsx        # 任务创建表单
+│   │   │   ├── TodoItem.tsx        # 任务项组件
+│   │   │   └── StatsPanel.tsx      # 统计面板
+│   │   ├── services/        # API 服务层
+│   │   │   └── todoAPI.ts          # API 接口定义
+│   │   ├── App.tsx          # 主应用组件
+│   │   ├── index.tsx        # 入口文件
+│   │   └── index.css        # 全局样式
+│   ├── tailwind.config.js   # Tailwind 配置
 │   └── package.json
-└── backend/           # Spring Boot 后端项目
-    ├── src/
-    │   └── main/
-    │       ├── java/com/example/todo/
-    │       │   ├── controller/    # REST 控制器
-    │       │   ├── model/         # 数据模型
-    │       │   ├── repository/    # 数据访问层
-    │       │   ├── service/       # 业务逻辑层
-    │       │   └── TodoApplication.java
-    │       └── resources/
-    │           └── application.properties
+└── backend/                  # Spring Boot 后端
+    ├── src/main/java/com/example/todo/
+    │   ├── controller/      # REST 控制器
+    │   │   └── TodoController.java
+    │   ├── model/           # 数据模型
+    │   │   └── Todo.java
+    │   ├── repository/      # 数据访问层
+    │   │   └── TodoRepository.java
+    │   ├── service/         # 业务逻辑层
+    │   │   └── TodoService.java
+    │   └── TodoApplication.java
+    ├── src/main/resources/
+    │   └── application.properties
     └── pom.xml
 ```
 
-## 功能特性
-
-- ✅ 创建新的 Todo 任务
-- ✅ 查看所有 Todo 任务
-- ✅ 标记任务为完成/未完成
-- ✅ 删除任务
-- ✅ 按状态筛选任务（全部/活动/已完成）
-- ✅ 响应式界面设计
-- ✅ 实时数据持久化
-
-## 安装和运行
+## 🚀 快速开始
 
 ### 前置要求
-
-- Node.js 16+ 和 npm
+- Node.js 16+
 - Java 17+
 - Maven 3.6+
 
-### 后端启动
+### 1. 启动后端
 
-1. 进入后端目录：
 ```bash
 cd todo-app/backend
-```
-
-2. 使用 Maven 运行：
-```bash
 mvn spring-boot:run
 ```
 
-或者先编译再运行：
-```bash
-mvn clean package
-java -jar target/todo-backend-1.0.0.jar
-```
+后端将在 **http://localhost:3011** 启动
 
-后端将在 http://localhost:3011 启动
+### 2. 启动前端
 
-### 前端启动
-
-1. 进入前端目录：
 ```bash
 cd todo-app/frontend
-```
-
-2. 安装依赖（首次运行）：
-```bash
-npm install
-```
-
-3. 启动开发服务器：
-```bash
+npm install  # 首次运行需要安装依赖
 npm start
 ```
 
-前端将在 http://localhost:3010 启动，浏览器会自动打开。
+前端将在 **http://localhost:3010** 启动并自动打开浏览器
 
-## API 接口
+## 📡 API 端点
 
-### 基础 URL
-```
-http://localhost:3011/api/todos
-```
-
-### 端点
-
+### 基础端点
 | 方法 | 路径 | 描述 |
 |------|------|------|
-| GET | `/api/todos` | 获取所有 Todo |
-| GET | `/api/todos/{id}` | 获取单个 Todo |
-| GET | `/api/todos/status/{completed}` | 按状态获取 Todo |
-| POST | `/api/todos` | 创建新 Todo |
-| PUT | `/api/todos/{id}` | 更新 Todo |
-| DELETE | `/api/todos/{id}` | 删除 Todo |
+| GET | `/api/todos` | 获取所有任务 |
+| GET | `/api/todos?sort=priority` | 按优先级排序获取任务 |
+| GET | `/api/todos/{id}` | 获取单个任务 |
+| POST | `/api/todos` | 创建新任务 |
+| PUT | `/api/todos/{id}` | 更新任务 |
+| PATCH | `/api/todos/{id}/star` | 切换收藏状态 |
+| DELETE | `/api/todos/{id}` | 删除任务 |
 
-### 数据模型
+### 筛选端点
+| 方法 | 路径 | 描述 |
+|------|------|------|
+| GET | `/api/todos/status/{completed}` | 按完成状态筛选 |
+| GET | `/api/todos/priority/{priority}` | 按优先级筛选 (HIGH/MEDIUM/LOW) |
+| GET | `/api/todos/starred` | 获取收藏的任务 |
+| GET | `/api/todos/tag/{tag}` | 按标签筛选 |
+| GET | `/api/todos/today` | 获取今天到期的任务 |
+| GET | `/api/todos/overdue` | 获取逾期的任务 |
 
-```json
-{
-  "id": 1,
-  "title": "Todo 标题",
-  "description": "Todo 描述",
-  "completed": false,
-  "createdAt": "2024-01-17T10:00:00",
-  "updatedAt": "2024-01-17T10:00:00"
+### 其他端点
+| 方法 | 路径 | 描述 |
+|------|------|------|
+| GET | `/api/todos/search?q={keyword}` | 搜索任务 |
+| GET | `/api/todos/tags` | 获取所有标签 |
+| GET | `/api/todos/statistics` | 获取统计数据 |
+
+## 📊 数据模型
+
+```typescript
+interface Todo {
+  id?: number;
+  title: string;               // 任务标题
+  description: string;          // 任务描述
+  completed: boolean;           // 完成状态
+  priority: 'LOW' | 'MEDIUM' | 'HIGH';  // 优先级
+  dueDate?: string;            // 截止日期
+  tags: string[];              // 标签数组
+  color?: string;              // 自定义颜色
+  starred: boolean;            // 收藏状态
+  createdAt?: string;          // 创建时间
+  updatedAt?: string;          // 更新时间
 }
 ```
 
-## 配置
+## 🎨 UI 特性
 
-### 前端配置
+### 优先级颜色方案
+- 🔴 **高优先级** - 红色边框和背景
+- 🟡 **中优先级** - 黄色边框和背景
+- 🟢 **低优先级** - 绿色边框和背景
 
-前端配置在 `frontend/.env` 文件中：
+### 任务状态
+- ✅ 已完成任务显示为半透明并带删除线
+- ⚠️ 逾期任务显示红色警告标记
+- ⭐ 收藏任务显示金色星标
 
-```env
-PORT=3010
-REACT_APP_API_URL=http://localhost:3011
-```
+### 统计卡片
+- 📈 总任务数
+- 🔵 活跃任务
+- 🟢 已完成任务
+- 🔴 高优先级任务
+- ⭐ 收藏任务
+- ⚠️ 逾期任务
 
-### 后端配置
+## 🌙 深色模式
 
-后端配置在 `backend/src/main/resources/application.properties` 文件中：
+应用支持深色模式，用户偏好会自动保存到本地存储。点击右上角的太阳/月亮图标即可切换主题。
 
-```properties
-server.port=3011
-spring.datasource.url=jdbc:h2:mem:tododb
-```
-
-## 开发
+## 🔧 开发
 
 ### 前端开发
-
-- 运行测试：`npm test`
-- 构建生产版本：`npm run build`
+```bash
+cd frontend
+npm start      # 开发服务器
+npm test       # 运行测试
+npm run build  # 生产构建
+```
 
 ### 后端开发
-
-- 运行测试：`mvn test`
-- 打包应用：`mvn package`
-
-## H2 数据库控制台
-
-开发时可以访问 H2 数据库控制台：
-
-```
-http://localhost:3011/h2-console
+```bash
+cd backend
+mvn spring-boot:run  # 运行应用
+mvn test             # 运行测试
+mvn package          # 打包应用
 ```
 
-连接信息：
+## 🗄️ H2 数据库控制台
+
+开发时可以访问 H2 数据库控制台查看数据：
+
+**URL**: http://localhost:3011/h2-console
+
+**连接信息**:
 - JDBC URL: `jdbc:h2:mem:tododb`
 - Username: `sa`
 - Password: (留空)
 
-## 故障排除
+## 📝 使用示例
 
-1. **前端无法连接后端**
-   - 确保后端已启动并运行在端口 3011
-   - 检查 CORS 配置是否正确
+### 创建任务
+1. 在顶部输入框输入任务标题
+2. 选择优先级（低/中/高）
+3. 点击"More options"添加描述、截止日期和标签
+4. 点击"Add Todo"创建任务
 
-2. **端口已被占用**
-   - 修改 `.env` 文件（前端）或 `application.properties`（后端）中的端口号
+### 筛选任务
+使用顶部的筛选按钮快速查看：
+- **All** - 所有任务
+- **Active** - 未完成任务
+- **Completed** - 已完成任务
+- **Starred** - 收藏的任务
+- **High** - 高优先级任务
+- **Today** - 今天到期的任务
+- **Overdue** - 逾期任务
 
-3. **Maven 构建失败**
-   - 确保 Java 版本为 17 或更高
-   - 运行 `mvn clean install` 重新构建
+### 搜索任务
+在搜索框输入关键词，实时搜索任务标题和描述。
 
-## 许可证
+## 🚀 部署建议
+
+### 前端部署
+- 运行 `npm run build` 生成生产版本
+- 将 `build` 文件夹部署到静态托管服务（Vercel、Netlify 等）
+- 确保配置正确的 API URL 环境变量
+
+### 后端部署
+- 运行 `mvn package` 打包应用
+- 部署 JAR 文件到服务器或云平台
+- 生产环境建议使用 MySQL/PostgreSQL 替换 H2 数据库
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 📄 许可证
 
 MIT
+
+## 🙏 致谢
+
+本项目使用了以下优秀的开源库：
+- React
+- Spring Boot
+- Tailwind CSS
+- Framer Motion
+- Lucide React
+- date-fns
+
+---
+
+**Made with ❤️ by [Danonlylane](https://github.com/Danonlylane)**
+
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
