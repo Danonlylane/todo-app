@@ -4,11 +4,14 @@ import { Search, Moon, Sun } from 'lucide-react';
 import TodoForm from './components/TodoForm';
 import TodoItem from './components/TodoItem';
 import StatsPanel from './components/StatsPanel';
+import LanguageSwitcher from './components/LanguageSwitcher';
 import { todoAPI, Todo, Statistics } from './services/todoAPI';
+import { useLanguage } from './i18n/LanguageContext';
 
 type FilterType = 'all' | 'active' | 'completed' | 'starred' | 'high' | 'today' | 'overdue';
 
 function App() {
+  const { t } = useLanguage();
   const [todos, setTodos] = useState<Todo[]>([]);
   const [stats, setStats] = useState<Statistics | null>(null);
   const [filter, setFilter] = useState<FilterType>('all');
@@ -40,7 +43,7 @@ function App() {
       const data = await todoAPI.getAllTodos('priority');
       setTodos(data);
     } catch (err) {
-      setError('Failed to load todos. Make sure the backend is running on port 3011.');
+      setError(t('errorLoad'));
       console.error(err);
     } finally {
       setLoading(false);
@@ -71,7 +74,7 @@ function App() {
       setTodos([newTodo, ...todos]);
       fetchStats();
     } catch (err) {
-      setError('Failed to add todo');
+      setError(t('errorAdd'));
       console.error(err);
     }
   };
@@ -89,7 +92,7 @@ function App() {
         fetchStats();
       }
     } catch (err) {
-      setError('Failed to update todo');
+      setError(t('errorUpdate'));
       console.error(err);
     }
   };
@@ -101,7 +104,7 @@ function App() {
       setTodos(todos.map(t => t.id === id ? updatedTodo : t));
       fetchStats();
     } catch (err) {
-      setError('Failed to star todo');
+      setError(t('errorStar'));
       console.error(err);
     }
   };
@@ -113,7 +116,7 @@ function App() {
       setTodos(todos.filter(t => t.id !== id));
       fetchStats();
     } catch (err) {
-      setError('Failed to delete todo');
+      setError(t('errorDelete'));
       console.error(err);
     }
   };
@@ -180,22 +183,25 @@ function App() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-2">
-              ✨ My Tasks
+              ✨ {t('appTitle')}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Organize your life, one task at a time
+              {t('appSubtitle')}
             </p>
           </div>
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-3 rounded-xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-200"
-          >
-            {darkMode ? (
-              <Sun className="w-6 h-6 text-yellow-500" />
-            ) : (
-              <Moon className="w-6 h-6 text-gray-700" />
-            )}
-          </button>
+          <div className="flex gap-3">
+            <LanguageSwitcher />
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-3 rounded-xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+              {darkMode ? (
+                <Sun className="w-6 h-6 text-yellow-500" />
+              ) : (
+                <Moon className="w-6 h-6 text-gray-700" />
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Statistics */}
@@ -214,7 +220,7 @@ function App() {
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
-              placeholder="Search todos..."
+              placeholder={t('searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
               className="w-full pl-12 pr-4 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:border-primary-500 focus:outline-none transition-colors"
@@ -233,7 +239,7 @@ function App() {
                   }
                 `}
               >
-                {f.charAt(0).toUpperCase() + f.slice(1)}
+                {t(f as any) || f.charAt(0).toUpperCase() + f.slice(1)}
               </button>
             ))}
           </div>
@@ -246,7 +252,7 @@ function App() {
         {loading ? (
           <div className="text-center py-12">
             <div className="inline-block w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
+            <p className="mt-4 text-gray-600 dark:text-gray-400">{t('loading')}</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -254,7 +260,7 @@ function App() {
               {filteredTodos.length === 0 ? (
                 <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
                   <p className="text-gray-500 dark:text-gray-400 text-lg">
-                    {searchQuery ? 'No matching todos found' : 'No todos yet. Create one to get started!'}
+                    {searchQuery ? t('noMatching') : t('noTodos')}
                   </p>
                 </div>
               ) : (

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Star, Trash2, Calendar, Tag } from 'lucide-react';
 import { Todo } from '../services/todoAPI';
 import { format } from 'date-fns';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface TodoItemProps {
   todo: Todo;
@@ -24,6 +25,7 @@ const priorityBadgeColors = {
 };
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, onStar }) => {
+  const { t } = useLanguage();
   const isOverdue = todo.dueDate && new Date(todo.dueDate) < new Date() && !todo.completed;
 
   return (
@@ -102,7 +104,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, onStar })
               <div className={`flex items-center gap-1 ${isOverdue ? 'text-red-500 font-semibold' : ''}`}>
                 <Calendar className="w-3 h-3" />
                 <span>{format(new Date(todo.dueDate), 'MMM dd, yyyy')}</span>
-                {isOverdue && <span className="ml-1 text-red-500">⚠️ Overdue</span>}
+                {isOverdue && <span className="ml-1 text-red-500">⚠️ {t('overdueWarning')}</span>}
               </div>
             )}
 

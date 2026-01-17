@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, Circle, Star, AlertCircle, TrendingUp } from 'lucide-react';
 import { Statistics } from '../services/todoAPI';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface StatsCardProps {
   title: string;
@@ -40,41 +41,43 @@ interface StatsPanelProps {
 }
 
 const StatsPanel: React.FC<StatsPanelProps> = ({ stats }) => {
+  const { t } = useLanguage();
+
   if (!stats) return null;
 
   const cards = [
     {
-      title: 'Total Tasks',
+      title: t('totalTasks'),
       value: stats.total,
       icon: <TrendingUp className="w-12 h-12" />,
       color: 'from-blue-500 to-blue-600',
     },
     {
-      title: 'Active',
+      title: t('active'),
       value: stats.active,
       icon: <Circle className="w-12 h-12" />,
       color: 'from-purple-500 to-purple-600',
     },
     {
-      title: 'Completed',
+      title: t('completed'),
       value: stats.completed,
       icon: <CheckCircle className="w-12 h-12" />,
       color: 'from-green-500 to-green-600',
     },
     {
-      title: 'High Priority',
+      title: t('highPriority'),
       value: stats.high_priority,
       icon: <AlertCircle className="w-12 h-12" />,
       color: 'from-red-500 to-red-600',
     },
     {
-      title: 'Starred',
+      title: t('starred'),
       value: stats.starred,
       icon: <Star className="w-12 h-12" />,
       color: 'from-yellow-500 to-yellow-600',
     },
     {
-      title: 'Overdue',
+      title: t('overdue'),
       value: stats.overdue,
       icon: <AlertCircle className="w-12 h-12" />,
       color: 'from-orange-500 to-orange-600',
