@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import { Plus, Calendar, Tag as TagIcon, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Plus, Calendar, Tag as TagIcon, X, Save } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../i18n/LanguageContext';
+import { Todo } from '../services/todoAPI';
 
 interface TodoFormProps {
   onAdd: (title: string, description: string, priority: string, dueDate: string, tags: string[]) => void;
+  onUpdate?: (title: string, description: string, priority: string, dueDate: string, tags: string[]) => void;
+  onCancel?: () => void;
+  editingTodo?: Todo | null;
 }
 
-const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
+const TodoForm: React.FC<TodoFormProps> = ({ onAdd, onUpdate, onCancel, editingTodo }) => {
   const { t } = useLanguage();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -17,16 +21,48 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
   const [tags, setTags] = useState<string[]>([]);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (title.trim()) {
-      onAdd(title, description, priority, dueDate, tags);
+  // Load editing todo data
+  useEffect(() => {
+    if (editingTodo) {
+      setTitle(editingTodo.title);
+      setDescription(editingTodo.description || '');
+      setPriority(editingTodo.priority);
+      setDueDate(editingTodo.dueDate ? editingTodo.dueDate.slice(0, 16) : '');
+      setTags(editingTodo.tags || []);
+      setShowAdvanced(true);
+    } else {
       setTitle('');
       setDescription('');
       setPriority('MEDIUM');
       setDueDate('');
       setTags([]);
       setShowAdvanced(false);
+    }
+  }, [editingTodo]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (title.trim()) {
+      if (editingTodo && onUpdate) {
+        onUpdate(title, description, priority, dueDate, tags);
+      } else {
+        onAdd(title, description, priority, dueDate, tags);
+      }
+
+      if (!editingTodo) {
+        setTitle('');
+        setDescription('');
+        setPriority('MEDIUM');
+        setDueDate('');
+        setTags([]);
+        setShowAdvanced(false);
+      }
+    }
+  };
+
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel();
     }
   };
 
@@ -146,19 +182,39 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
       </AnimatePresence>
 
       <div className="flex gap-3">
-        <button
-          type="button"
-          onClick={() => setShowAdvanced(!showAdvanced)}
-          className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-        >
-          {showAdvanced ? t('lessOptions') : t('moreOptions')}
-        </button>
+        {!editingTodo && (
+          <button
+            type="button"
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+          >
+            {showAdvanced ? t('lessOptions') : t('moreOptions')}
+          </button>
+        )}
+        {editingTodo && onCancel && (
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-semibold transition-all duration-200 hover:bg-gray-300 dark:hover:bg-gray-600"
+          >
+            Cancel
+          </button>
+        )}
         <button
           type="submit"
           className="ml-auto flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg"
         >
-          <Plus className="w-5 h-5" />
-          {t('addTodo')}
+          {editingTodo ? (
+            <>
+              <Save className="w-5 h-5" />
+              Update Todo
+            </>
+          ) : (
+            <>
+              <Plus className="w-5 h-5" />
+              {t('addTodo')}
+            </>
+          )}
         </button>
       </div>
     </motion.form>

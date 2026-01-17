@@ -18,6 +18,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('darkMode') === 'true';
   });
@@ -77,6 +78,36 @@ function App() {
       setError(t('errorAdd'));
       console.error(err);
     }
+  };
+
+  const updateTodo = async (title: string, description: string, priority: string, dueDate: string, tags: string[]) => {
+    if (!editingTodo || !editingTodo.id) return;
+
+    try {
+      setError(null);
+      const updatedTodo = await todoAPI.updateTodo(editingTodo.id, {
+        ...editingTodo,
+        title,
+        description,
+        priority: priority as 'LOW' | 'MEDIUM' | 'HIGH',
+        dueDate: dueDate || undefined,
+        tags,
+      });
+      setTodos(todos.map(t => t.id === editingTodo.id ? updatedTodo : t));
+      setEditingTodo(null);
+      fetchStats();
+    } catch (err) {
+      setError(t('errorUpdate'));
+      console.error(err);
+    }
+  };
+
+  const startEdit = (todo: Todo) => {
+    setEditingTodo(todo);
+  };
+
+  const cancelEdit = () => {
+    setEditingTodo(null);
   };
 
   const toggleTodo = async (id: number) => {
@@ -246,7 +277,12 @@ function App() {
         </div>
 
         {/* Add Todo Form */}
-        <TodoForm onAdd={addTodo} />
+        <TodoForm
+          onAdd={addTodo}
+          onUpdate={updateTodo}
+          onCancel={cancelEdit}
+          editingTodo={editingTodo}
+        />
 
         {/* Todo List */}
         {loading ? (
@@ -271,6 +307,7 @@ function App() {
                     onToggle={toggleTodo}
                     onDelete={deleteTodo}
                     onStar={toggleStar}
+                    onEdit={startEdit}
                   />
                 ))
               )}

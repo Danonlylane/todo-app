@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Star, Trash2, Calendar, Tag } from 'lucide-react';
+import { Star, Trash2, Calendar, Tag, Edit } from 'lucide-react';
 import { Todo } from '../services/todoAPI';
 import { format } from 'date-fns';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -10,6 +10,7 @@ interface TodoItemProps {
   onToggle: (id: number) => void;
   onDelete: (id: number) => void;
   onStar: (id: number) => void;
+  onEdit: (todo: Todo) => void;
 }
 
 const priorityColors = {
@@ -24,7 +25,7 @@ const priorityBadgeColors = {
   LOW: 'bg-green-500 text-white',
 };
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, onStar }) => {
+const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, onStar, onEdit }) => {
   const { t } = useLanguage();
   const isOverdue = todo.dueDate && new Date(todo.dueDate) < new Date() && !todo.completed;
 
@@ -128,6 +129,13 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete, onStar })
 
         {/* Actions */}
         <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <button
+            onClick={() => onEdit(todo)}
+            className="p-2 text-gray-400 hover:text-blue-500 rounded-lg transition-all duration-200"
+          >
+            <Edit className="w-5 h-5" />
+          </button>
+
           <button
             onClick={() => todo.id && onStar(todo.id)}
             className={`
