@@ -18,21 +18,21 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, value, icon, color, index 
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: index * 0.1 }}
     className={`
-      relative overflow-hidden rounded-xl p-6 bg-gradient-to-br
+      relative overflow-hidden rounded-xl p-3 bg-gradient-to-br
       ${color}
       shadow-lg hover:shadow-xl transition-shadow duration-200
     `}
   >
     <div className="flex items-center justify-between">
       <div>
-        <p className="text-sm font-medium text-white/80 mb-1">{title}</p>
-        <p className="text-3xl font-bold text-white">{value}</p>
+        <p className="text-xs font-medium text-white/80 mb-0.5">{title}</p>
+        <p className="text-xl font-bold text-white">{value}</p>
       </div>
       <div className="text-white/30">
         {icon}
       </div>
     </div>
-    <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16" />
+    <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10" />
   </motion.div>
 );
 
@@ -49,37 +49,37 @@ const StatsPanel: React.FC<StatsPanelProps> = ({ stats }) => {
     {
       title: t('totalTasks'),
       value: stats.total,
-      icon: <TrendingUp className="w-12 h-12" />,
+      icon: <TrendingUp className="w-8 h-8" />,
       color: 'from-blue-500 to-blue-600',
     },
     {
       title: t('active'),
       value: stats.active,
-      icon: <Circle className="w-12 h-12" />,
+      icon: <Circle className="w-8 h-8" />,
       color: 'from-purple-500 to-purple-600',
     },
     {
       title: t('completed'),
       value: stats.completed,
-      icon: <CheckCircle className="w-12 h-12" />,
+      icon: <CheckCircle className="w-8 h-8" />,
       color: 'from-green-500 to-green-600',
     },
     {
       title: t('highPriority'),
       value: stats.high_priority,
-      icon: <AlertCircle className="w-12 h-12" />,
+      icon: <AlertCircle className="w-8 h-8" />,
       color: 'from-red-500 to-red-600',
     },
     {
       title: t('starred'),
       value: stats.starred,
-      icon: <Star className="w-12 h-12" />,
+      icon: <Star className="w-8 h-8" />,
       color: 'from-yellow-500 to-yellow-600',
     },
     {
       title: t('overdue'),
       value: stats.overdue,
-      icon: <AlertCircle className="w-12 h-12" />,
+      icon: <AlertCircle className="w-8 h-8" />,
       color: 'from-orange-500 to-orange-600',
     },
   ];

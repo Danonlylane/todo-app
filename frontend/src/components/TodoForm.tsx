@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Calendar, Tag as TagIcon, X, Save } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { DatePicker } from 'antd';
+import dayjs, { Dayjs } from 'dayjs';
+import 'antd/dist/reset.css';
+import './TodoForm.css';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Todo } from '../services/todoAPI';
 
@@ -80,7 +84,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAdd, onUpdate, onCancel, editingT
   return (
     <motion.form
       onSubmit={handleSubmit}
-      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6"
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border-2 border-gray-200 dark:border-gray-700 p-6 mb-6"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
     >
@@ -126,11 +130,15 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAdd, onUpdate, onCancel, editingT
                   <Calendar className="w-4 h-4" />
                   {t('dueDate')}
                 </label>
-                <input
-                  type="datetime-local"
-                  value={dueDate}
-                  onChange={(e) => setDueDate(e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:border-primary-500 focus:outline-none transition-colors"
+                <DatePicker
+                  showTime
+                  format="YYYY/MM/DD HH:mm"
+                  value={dueDate ? dayjs(dueDate) : null}
+                  onChange={(date: Dayjs | null) => {
+                    setDueDate(date ? date.format('YYYY-MM-DDTHH:mm') : '');
+                  }}
+                  placeholder="年/月/日 --:--"
+                  className="w-full custom-datepicker"
                 />
               </div>
             </div>
@@ -181,12 +189,12 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAdd, onUpdate, onCancel, editingT
         )}
       </AnimatePresence>
 
-      <div className="flex gap-3">
+      <div className="flex gap-3 items-center">
         {!editingTodo && (
           <button
             type="button"
             onClick={() => setShowAdvanced(!showAdvanced)}
-            className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+            className="px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-all duration-200 border border-gray-300 dark:border-gray-600"
           >
             {showAdvanced ? t('lessOptions') : t('moreOptions')}
           </button>
@@ -195,14 +203,14 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAdd, onUpdate, onCancel, editingT
           <button
             type="button"
             onClick={handleCancel}
-            className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-semibold transition-all duration-200 hover:bg-gray-300 dark:hover:bg-gray-600"
+            className="px-6 py-2.5 text-sm font-semibold bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg transition-all duration-200 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600"
           >
             Cancel
           </button>
         )}
         <button
           type="submit"
-          className="ml-auto flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg"
+          className="ml-auto flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
         >
           {editingTodo ? (
             <>

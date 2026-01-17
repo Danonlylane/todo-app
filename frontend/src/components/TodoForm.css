@@ -1,0 +1,139 @@
+/* Ant Design DatePicker 自定义样式 - 与其他输入框统一 */
+
+/* 输入框样式 - 匹配其他输入框 */
+.custom-datepicker.ant-picker {
+  height: 42px !important;
+  padding: 12px 16px !important;
+  border-radius: 0.5rem !important; /* rounded-lg */
+  border: 2px solid #e5e7eb !important; /* border-gray-200 */
+  background: white !important;
+  color: #111827 !important; /* text-gray-900 */
+  transition: all 0.2s ease !important;
+  box-shadow: none !important;
+}
+
+.custom-datepicker.ant-picker:hover {
+  border-color: #e5e7eb !important;
+}
+
+.custom-datepicker.ant-picker-focused {
+  border-color: #3b82f6 !important; /* primary-500 */
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 输入框内文字样式 */
+.custom-datepicker.ant-picker input {
+  color: #111827 !important; /* text-gray-900 */
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+.custom-datepicker.ant-picker input::placeholder {
+  color: #9ca3af !important; /* text-gray-400 */
+}
+
+/* 清除按钮样式 */
+.custom-datepicker.ant-picker .ant-picker-clear {
+  background: transparent !important;
+  border-radius: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  right: 32px !important;
+  color: #6b7280 !important;
+}
+
+.custom-datepicker.ant-picker .ant-picker-clear:hover {
+  background: transparent !important;
+  color: #111827 !important;
+}
+
+/* 日历图标 */
+.custom-datepicker.ant-picker .ant-picker-suffix {
+  color: #6b7280 !important; /* text-gray-500 */
+}
+
+/* 深色模式支持 */
+.dark .custom-datepicker.ant-picker {
+  background: #111827 !important; /* dark:bg-gray-900 */
+  border-color: #374151 !important; /* dark:border-gray-700 */
+}
+
+.dark .custom-datepicker.ant-picker input {
+  color: #f3f4f6 !important; /* dark:text-gray-100 */
+}
+
+.dark .custom-datepicker.ant-picker input::placeholder {
+  color: #6b7280 !important;
+}
+
+.dark .custom-datepicker.ant-picker-focused {
+  border-color: #3b82f6 !important;
+}
+
+.dark .custom-datepicker.ant-picker .ant-picker-suffix {
+  color: #9ca3af !important;
+}
+
+.dark .custom-datepicker.ant-picker .ant-picker-clear {
+  color: #9ca3af !important;
+}
+
+.dark .custom-datepicker.ant-picker .ant-picker-clear:hover {
+  color: #f3f4f6 !important;
+}
+
+/* 下拉面板样式 */
+.ant-picker-dropdown {
+  border-radius: 0.5rem !important;
+  overflow: hidden !important;
+}
+
+.ant-picker-panel-container {
+  border-radius: 0.5rem !important;
+}
+
+/* 选中日期的样式 */
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
+  background: #3b82f6 !important;
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border-color: #3b82f6 !important;
+}
+
+/* 时间选择器样式 */
+.ant-picker-time-panel-column > li.ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+  background: #3b82f6 !important;
+}
+
+/* OK 按钮样式 */
+.ant-picker-ok button {
+  background: #3b82f6 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0.375rem !important;
+  padding: 6px 16px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+.ant-picker-ok button:hover {
+  background: #2563eb !important;
+}
+
+/* Now 按钮样式 */
+.ant-picker-now button {
+  color: #3b82f6 !important;
+  border: 1px solid #3b82f6 !important;
+  border-radius: 0.375rem !important;
+  padding: 6px 16px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.ant-picker-now button:hover {
+  background: #eff6ff !important;
+  border-color: #2563eb !important;
+  color: #2563eb !important;
+}
