@@ -205,7 +205,16 @@ function App() {
     }
   };
 
-  const filteredTodos = searchQuery ? todos : todos;
+  const filteredTodos = searchQuery
+    ? todos
+    : [...todos].sort((a, b) => {
+        // 未完成的排在前面，已完成的排在后面
+        if (a.completed !== b.completed) {
+          return a.completed ? 1 : -1;
+        }
+        // 如果完成状态相同，按 ID 降序排列（新的在前）
+        return (b.id || 0) - (a.id || 0);
+      });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-200">
